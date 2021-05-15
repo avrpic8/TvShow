@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TvShow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tv_show">TvShow | most Popular</string>
+    <string name="watch_list">Watch List</string>
+    <string name="search">Search</string>
 </resources>
