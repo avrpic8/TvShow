@@ -1,4 +1,4 @@
-package com.smartelectronics.tvshow;
+package com.smartelectronics.tvshow.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -8,6 +8,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+
+import com.smartelectronics.tvshow.R;
 
 public class MainActivity extends AppCompatActivity {
 

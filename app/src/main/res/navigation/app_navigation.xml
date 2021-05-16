@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.smartelectronics.tvshow.HomeFragment"
+        android:name="com.smartelectronics.tvshow.ui.fragments.HomeFragment"
         android:label="@string/tv_show"
         tools:layout="@layout/fragment_home" />
 </navigation>
