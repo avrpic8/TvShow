@@ -5,13 +5,14 @@
     <data>
         <variable
             name="tvShowItem"
-            type="com.smartelectronics.tvshow.models.TvShowsItem" />
+            type="com.smartelectronics.tvshow.models.MostPopularTvShowItems" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_4sdp">
+        android:padding="@dimen/_4sdp"
+        tvShowClick="@{tvShowItem}">
 
         <View
             android:id="@+id/viewSupporter"

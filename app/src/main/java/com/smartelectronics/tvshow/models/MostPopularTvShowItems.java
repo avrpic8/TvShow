@@ -1,8 +1,11 @@
 package com.smartelectronics.tvshow.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class TvShowsItem{
+public class MostPopularTvShowItems implements Parcelable {
 
 	@SerializedName("id")
 	private int id;
@@ -30,6 +33,29 @@ public class TvShowsItem{
 
 	@SerializedName("image_thumbnail_path")
 	private String imageThumbnailPath;
+
+	protected MostPopularTvShowItems(Parcel in) {
+		id = in.readInt();
+		name = in.readString();
+		permalink = in.readString();
+		startDate = in.readString();
+		country = in.readString();
+		network = in.readString();
+		status = in.readString();
+		imageThumbnailPath = in.readString();
+	}
+
+	public static final Creator<MostPopularTvShowItems> CREATOR = new Creator<MostPopularTvShowItems>() {
+		@Override
+		public MostPopularTvShowItems createFromParcel(Parcel in) {
+			return new MostPopularTvShowItems(in);
+		}
+
+		@Override
+		public MostPopularTvShowItems[] newArray(int size) {
+			return new MostPopularTvShowItems[size];
+		}
+	};
 
 	public int getId() {
 		return id;
@@ -101,5 +127,22 @@ public class TvShowsItem{
 
 	public void setImageThumbnailPath(String imageThumbnailPath) {
 		this.imageThumbnailPath = imageThumbnailPath;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeString(name);
+		dest.writeString(permalink);
+		dest.writeString(startDate);
+		dest.writeString(country);
+		dest.writeString(network);
+		dest.writeString(status);
+		dest.writeString(imageThumbnailPath);
 	}
 }

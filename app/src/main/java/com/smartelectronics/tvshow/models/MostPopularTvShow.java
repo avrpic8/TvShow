@@ -3,7 +3,7 @@ package com.smartelectronics.tvshow.models;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class TvShow{
+public class MostPopularTvShow {
 
 	@SerializedName("total")
 	private String total;
@@ -15,7 +15,7 @@ public class TvShow{
 	private int pages;
 
 	@SerializedName("tv_shows")
-	private List<TvShowsItem> tvShows;
+	private List<MostPopularTvShowItems> tvShows;
 
 	public String getTotal() {
 		return total;
@@ -41,11 +41,11 @@ public class TvShow{
 		this.pages = pages;
 	}
 
-	public List<TvShowsItem> getTvShows() {
+	public List<MostPopularTvShowItems> getTvShows() {
 		return tvShows;
 	}
 
-	public void setTvShows(List<TvShowsItem> tvShows) {
+	public void setTvShows(List<MostPopularTvShowItems> tvShows) {
 		this.tvShows = tvShows;
 	}
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.smartelectronics.tvshow.data.Repository;
-import com.smartelectronics.tvshow.models.TvShow;
+import com.smartelectronics.tvshow.models.MostPopularTvShow;
 
 public class MostPopularTvShowViewModel extends ViewModel {
 
@@ -16,7 +16,7 @@ public class MostPopularTvShowViewModel extends ViewModel {
         repository = new Repository();
     }
 
-    public LiveData<TvShow> getMostPopularTvShows(int page){
+    public LiveData<MostPopularTvShow> getMostPopularTvShows(int page){
         return repository.remote.getMostPopularTvShows(page);
     }
 
