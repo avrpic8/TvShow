@@ -11,6 +11,7 @@
     <color name="colorPrimary">#141A31</color>
     <color name="colorPrimaryDark">#081029</color>
     <color name="colorAccent">#0097FB</color>
+    <color name="colorAccentAlpha">#200097FB</color>
     <color name="colorTextIcon">#FFFFFF</color>
     <color name="colorPrimaryLight">#1E2746</color>
     <color name="colorTextPrimary">#CBD5ED</color>

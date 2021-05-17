@@ -8,6 +8,10 @@
         <variable
             name="isLoading"
             type="Boolean" />
+        
+        <variable
+            name="isLoadingMore"
+            type="Boolean" />
 
         <import type="android.view.View" />
     </data>
@@ -25,6 +29,10 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:orientation="vertical"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingStart="@dimen/_4sdp"
+            android:paddingEnd="@dimen/_4sdp"
+            android:paddingBottom="@dimen/_45sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +50,18 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvShowsRecyclerView" />
+        
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{isLoadingMore ? View.VISIBLE : View.GONE, default = invisible}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:trackColor="@color/colorAccentAlpha"
+            app:indicatorColor="@color/colorAccent"
+            android:indeterminate="true"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

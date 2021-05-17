@@ -62,7 +62,8 @@ public class MostPopularTvShowAdapter extends RecyclerView.Adapter<MostPopularTv
     }
 
     public void setData(List<TvShowsItem> items){
-        this.tvShowsItems = items;
-        notifyDataSetChanged();
+        int oldCount = this.tvShowsItems.size();
+        this.tvShowsItems.addAll(items);
+        notifyItemRangeInserted(oldCount, this.tvShowsItems.size());
     }
 }

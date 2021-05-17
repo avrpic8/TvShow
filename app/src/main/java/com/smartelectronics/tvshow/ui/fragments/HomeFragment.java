@@ -6,32 +6,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.adapter.MostPopularTvShowAdapter;
 import com.smartelectronics.tvshow.databinding.FragmentHomeBinding;
-import com.smartelectronics.tvshow.models.TvShow;
-import com.smartelectronics.tvshow.models.TvShowsItem;
+
 import com.smartelectronics.tvshow.viewModels.MostPopularTvShowViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private MostPopularTvShowViewModel tvShowViewModel;
     private FragmentHomeBinding binding;
 
-    private List<TvShowsItem> tvShowsItems = new ArrayList<>();
     private MostPopularTvShowAdapter adapter;
 
     @Override
@@ -63,13 +59,43 @@ public class HomeFragment extends Fragment {
         binding.tvShowsRecyclerView.setHasFixedSize(true);
         adapter = new MostPopularTvShowAdapter();
         binding.tvShowsRecyclerView.setAdapter(adapter);
-        getMostPopularTvShows();
+        binding.tvShowsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(!binding.tvShowsRecyclerView.canScrollVertically(1)){
+                    tvShowViewModel.increaseCurrentPage();
+                    getMostPopularTvShows(tvShowViewModel.getCurrentPage());
+                }
+            }
+        });
+        getMostPopularTvShows(tvShowViewModel.getCurrentPage());
     }
-    private void getMostPopularTvShows(){
-        binding.setIsLoading(true);
-        tvShowViewModel.getMostPopularTvShows(0).observe(getViewLifecycleOwner(), tvShow -> {
-            binding.setIsLoading(false);
+
+    private void toggleLoading(){
+        if (tvShowViewModel.getCurrentPage() == 1){
+            if(binding.getIsLoading() != null && binding.getIsLoading()){
+                binding.setIsLoading(false);
+            } else {
+                binding.setIsLoading(true);
+            }
+        }else {
+            if(binding.getIsLoadingMore() != null && binding.getIsLoadingMore()){
+                binding.setIsLoadingMore(false);
+                binding.progressMore.hide();
+            } else {
+                binding.setIsLoadingMore(true);
+                binding.progressMore.show();
+            }
+        }
+    }
+
+    private void getMostPopularTvShows(int currentPage){
+        toggleLoading();
+        tvShowViewModel.getMostPopularTvShows(currentPage).observe(getViewLifecycleOwner(), tvShow -> {
+            toggleLoading();
             if(tvShow != null){
+                tvShowViewModel.setTotalAvailablePages(tvShow.getPages());
                 if(tvShow.getTvShows() != null){
                     adapter.setData(tvShow.getTvShows());
                 }
