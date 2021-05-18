@@ -1,4 +1,4 @@
-package com.smartelectronics.tvshow.ui.fragments;
+    package com.smartelectronics.tvshow.ui.fragments;
 
 import android.os.Bundle;
 

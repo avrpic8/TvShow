@@ -1,6 +1,7 @@
 package com.smartelectronics.tvshow.viewModels;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.smartelectronics.tvshow.data.Repository;
@@ -10,11 +11,14 @@ public class TvShowDetailsViewModel extends ViewModel {
 
     private Repository repository;
 
+    public LiveData<TvShowDetailsResponse> tvShowDetailsResponse = new MutableLiveData<>();
+
+
     public TvShowDetailsViewModel() {
         repository = new Repository();
     }
 
-    public LiveData<TvShowDetailsResponse> getTvShowDetails(int showId){
-        return repository.remote.getTvShowDetails(showId);
+    public void getTvShowDetails(int showId){
+        tvShowDetailsResponse = repository.remote.getTvShowDetails(showId);
     }
 }

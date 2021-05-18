@@ -11,9 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.smartelectronics.tvshow.R;
+import com.smartelectronics.tvshow.adapter.ImageSliderAdapter;
 import com.smartelectronics.tvshow.databinding.FragmentTvShowDetailsBinding;
 import com.smartelectronics.tvshow.models.TvShow;
 import com.smartelectronics.tvshow.viewModels.TvShowDetailsViewModel;
@@ -39,18 +40,76 @@ public class TvShowDetailsFragment extends Fragment {
 
         TvShow result = TvShowDetailsFragmentArgs.fromBundle(getArguments()).getTvshow();
         Log.i("detail", "onCreateView: " + result.getId());
-        getTvShowDetails(result.getId());
 
+        /// Request data from server by tvShow id
+        detailsViewModel.getTvShowDetails(result.getId());
+        toggleLoading();
+        detailsViewModel.tvShowDetailsResponse.observe(requireActivity(), tvShowDetailsResponse -> {
+            toggleLoading();
+            if(tvShowDetailsResponse.getTvShowDetails() != null){
+                if(tvShowDetailsResponse.getTvShowDetails().getPictures() != null){
+                    initImageSlider(tvShowDetailsResponse.getTvShowDetails().getPictures());
+                }
+            }
+        });
         return binding.getRoot();
     }
 
-    private void getTvShowDetails(int tvShowId){
-        binding.setIsLoading(true);
-        detailsViewModel.getTvShowDetails(tvShowId).observe(getViewLifecycleOwner(), tvShowDetails -> {
-            binding.setIsLoading(false);
-            Toast.makeText(requireContext(), tvShowDetails.getTvShowDetails().getUrl(), Toast.LENGTH_SHORT).show();
-        });
+    private void toggleLoading(){
+        if(binding.getIsLoading() != null && binding.getIsLoading()) binding.setIsLoading(false);
+        else binding.setIsLoading(true);
     }
 
+    private void initImageSlider(String[] pictures){
+        binding.sliderViewpager.setOffscreenPageLimit(1);
+        binding.sliderViewpager.setAdapter(new ImageSliderAdapter(pictures));
+        binding.sliderViewpager.setVisibility(View.VISIBLE);
+        binding.viewFadingEdge.setVisibility(View.VISIBLE);
+        binding.tabLayout.setVisibility(View.VISIBLE);
+        new TabLayoutMediator(binding.tabLayout, binding.sliderViewpager, ((tab, position) -> tab.select())).attach();
+        /*initSliderIndicator(pictures.length);
+        binding.sliderViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                initCurrentSliderIndicator(position);
+            }
+        });*/
+    }
 
+    /*private void initSliderIndicator(int count){
+        ImageView[] indicators = new ImageView[count];
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        layoutParams.setMargins(8,0,8,0);
+        for(int i=0; i< indicators.length; i++){
+            indicators[i] = new ImageView(requireActivity());
+            indicators[i].setImageDrawable(ContextCompat.getDrawable(
+                    getContext(),
+                    R.drawable.background_slider_indicator_inactive)
+            );
+            indicators[i].setLayoutParams(layoutParams);
+            binding.layoutSliderIndicator.addView(indicators[i]);
+        }
+        binding.layoutSliderIndicator.setVisibility(View.VISIBLE);
+        initCurrentSliderIndicator(0);
+    }
+
+    private void initCurrentSliderIndicator(int position){
+        int childCount = binding.layoutSliderIndicator.getChildCount();
+        for(int i=0; i<childCount; i++){
+            ImageView imageView = (ImageView) binding.layoutSliderIndicator.getChildAt(i);
+            if(i == position){
+                imageView.setImageDrawable(ContextCompat.getDrawable(
+                        getContext(), R.drawable.background_slider_indicator_active
+                ));
+            }else {
+                imageView.setImageDrawable(ContextCompat.getDrawable(
+                        getContext(), R.drawable.background_slider_indicator_inactive
+                ));
+            }
+        }
+    }
+*/
 }

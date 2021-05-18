@@ -18,6 +18,46 @@
         android:background="@color/colorPrimary"
         tools:context=".ui.fragments.TvShowDetailsFragment">
 
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/sliderViewpager"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_160sdp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/viewFadingEdge"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/background_fading_edge"
+            app:layout_constraintBottom_toBottomOf="@id/sliderViewpager"
+            android:visibility="visible"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintTop_toTopOf="@id/viewFadingEdge"
+            app:layout_constraintBottom_toBottomOf="@id/viewFadingEdge"
+            app:tabBackground="@drawable/viewpager_indicators"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            android:visibility="gone" />
+        <!--<LinearLayout
+            android:id="@+id/layoutSliderIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/viewFadingEdge"
+            android:visibility="gone"
+            android:orientation="horizontal"/>-->
+
+
         <ProgressBar
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
