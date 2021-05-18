@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.smartelectronics.tvshow.data.Repository;
-import com.smartelectronics.tvshow.models.TvShowDetailsResponse;
+import com.smartelectronics.tvshow.responses.TvShowDetailsResponse;
 
 public class TvShowDetailsViewModel extends ViewModel {
 
@@ -14,7 +14,7 @@ public class TvShowDetailsViewModel extends ViewModel {
         repository = new Repository();
     }
 
-    public LiveData<TvShowDetailsResponse> getTvShowDetails(String showId){
+    public LiveData<TvShowDetailsResponse> getTvShowDetails(int showId){
         return repository.remote.getTvShowDetails(showId);
     }
 }

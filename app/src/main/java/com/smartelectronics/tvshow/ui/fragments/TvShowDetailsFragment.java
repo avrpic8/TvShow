@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.databinding.FragmentTvShowDetailsBinding;
-import com.smartelectronics.tvshow.models.MostPopularTvShowItems;
+import com.smartelectronics.tvshow.models.TvShow;
 import com.smartelectronics.tvshow.viewModels.TvShowDetailsViewModel;
 
 public class TvShowDetailsFragment extends Fragment {
@@ -37,18 +37,18 @@ public class TvShowDetailsFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_show_details, container, false);
         binding.setLifecycleOwner(this);
 
-        MostPopularTvShowItems result = TvShowDetailsFragmentArgs.fromBundle(getArguments()).getTvShowItem();
+        TvShow result = TvShowDetailsFragmentArgs.fromBundle(getArguments()).getTvshow();
         Log.i("detail", "onCreateView: " + result.getId());
-        getTvShowDetails(String.valueOf(result.getId()));
+        getTvShowDetails(result.getId());
 
         return binding.getRoot();
     }
 
-    private void getTvShowDetails(String tvShowId){
+    private void getTvShowDetails(int tvShowId){
         binding.setIsLoading(true);
-        detailsViewModel.getTvShowDetails(tvShowId).observe(getViewLifecycleOwner(), tvShow -> {
+        detailsViewModel.getTvShowDetails(tvShowId).observe(getViewLifecycleOwner(), tvShowDetails -> {
             binding.setIsLoading(false);
-            Toast.makeText(requireContext(), tvShow.getTvShow().getUrl(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), tvShowDetails.getTvShowDetails().getUrl(), Toast.LENGTH_SHORT).show();
         });
     }
 

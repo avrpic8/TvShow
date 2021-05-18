@@ -9,15 +9,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.databinding.TvShowRowLayoutBinding;
-import com.smartelectronics.tvshow.models.MostPopularTvShowItems;
+import com.smartelectronics.tvshow.models.TvShow;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MostPopularTvShowAdapter extends RecyclerView.Adapter<MostPopularTvShowAdapter.TvShowViewHolder> {
 
-    private List<MostPopularTvShowItems> tvShowsItems = new ArrayList<>();
+    private List<TvShow> tvShowsItems;
     private LayoutInflater layoutInflater;
+
+    public MostPopularTvShowAdapter(List<TvShow> tvShowsItems) {
+        this.tvShowsItems = tvShowsItems;
+    }
 
     public static class TvShowViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,7 +32,7 @@ public class MostPopularTvShowAdapter extends RecyclerView.Adapter<MostPopularTv
             this.binding = binding;
         }
 
-        public void bind(MostPopularTvShowItems tvShowsItem){
+        public void bind(TvShow tvShowsItem){
             this.binding.setTvShowItem(tvShowsItem);
             this.binding.executePendingBindings();
         }
@@ -51,7 +55,7 @@ public class MostPopularTvShowAdapter extends RecyclerView.Adapter<MostPopularTv
 
     @Override
     public void onBindViewHolder(@NonNull TvShowViewHolder holder, int position) {
-        MostPopularTvShowItems currentTvShow = tvShowsItems.get(position);
+        TvShow currentTvShow = tvShowsItems.get(position);
         holder.bind(currentTvShow);
     }
 
@@ -60,9 +64,8 @@ public class MostPopularTvShowAdapter extends RecyclerView.Adapter<MostPopularTv
         return tvShowsItems.size();
     }
 
-    public void setData(List<MostPopularTvShowItems> items){
-        int oldCount = this.tvShowsItems.size();
-        this.tvShowsItems.addAll(items);
-        notifyItemRangeInserted(oldCount, this.tvShowsItems.size());
+    public void setData(List<TvShow> items){
+        this.tvShowsItems = items;
+        notifyDataSetChanged();
     }
 }

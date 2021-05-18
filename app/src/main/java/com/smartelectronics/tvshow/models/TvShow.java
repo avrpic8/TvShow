@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MostPopularTvShowItems implements Parcelable {
+public class TvShow implements Parcelable {
 
 	@SerializedName("id")
 	private int id;
@@ -34,7 +34,7 @@ public class MostPopularTvShowItems implements Parcelable {
 	@SerializedName("image_thumbnail_path")
 	private String imageThumbnailPath;
 
-	protected MostPopularTvShowItems(Parcel in) {
+	protected TvShow(Parcel in) {
 		id = in.readInt();
 		name = in.readString();
 		permalink = in.readString();
@@ -45,15 +45,15 @@ public class MostPopularTvShowItems implements Parcelable {
 		imageThumbnailPath = in.readString();
 	}
 
-	public static final Creator<MostPopularTvShowItems> CREATOR = new Creator<MostPopularTvShowItems>() {
+	public static final Creator<TvShow> CREATOR = new Creator<TvShow>() {
 		@Override
-		public MostPopularTvShowItems createFromParcel(Parcel in) {
-			return new MostPopularTvShowItems(in);
+		public TvShow createFromParcel(Parcel in) {
+			return new TvShow(in);
 		}
 
 		@Override
-		public MostPopularTvShowItems[] newArray(int size) {
-			return new MostPopularTvShowItems[size];
+		public TvShow[] newArray(int size) {
+			return new TvShow[size];
 		}
 	};
 

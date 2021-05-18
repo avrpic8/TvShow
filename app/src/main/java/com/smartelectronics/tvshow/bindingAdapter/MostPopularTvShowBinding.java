@@ -1,18 +1,13 @@
 package com.smartelectronics.tvshow.bindingAdapter;
 
-import android.view.View;
 import android.widget.ImageView;
 
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.BindingAdapter;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import com.smartelectronics.tvshow.R;
-import com.smartelectronics.tvshow.models.MostPopularTvShow;
-import com.smartelectronics.tvshow.models.MostPopularTvShowItems;
-import com.smartelectronics.tvshow.ui.fragments.HomeFragment;
+import com.smartelectronics.tvshow.models.TvShow;
 import com.smartelectronics.tvshow.ui.fragments.HomeFragmentDirections;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -38,7 +33,7 @@ public class MostPopularTvShowBinding {
     }
 
     @BindingAdapter("tvShowClick")
-    public static void onTvShowClick(ConstraintLayout container, MostPopularTvShowItems tvShow){
+    public static void onTvShowClick(ConstraintLayout container, TvShow tvShow){
         container.setOnClickListener(v -> {
             NavDirections action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShow);
             Navigation.findNavController(container).navigate(action);

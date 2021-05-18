@@ -25,16 +25,17 @@ import com.smartelectronics.tvshow.viewModels.MostPopularTvShowViewModel;
 
 public class HomeFragment extends Fragment {
 
-    private MostPopularTvShowViewModel tvShowViewModel;
     private FragmentHomeBinding binding;
+    private MostPopularTvShowViewModel tvShowViewModel;
 
     private MostPopularTvShowAdapter adapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        tvShowViewModel = new ViewModelProvider(requireActivity()).get(MostPopularTvShowViewModel.class);
+        tvShowViewModel = new ViewModelProvider(this).get(MostPopularTvShowViewModel.class);
     }
 
     @Override
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         initRecyclerView();
 
+        Log.i("cycle", "onCreateView: ");
         return binding.getRoot();
     }
 
@@ -55,9 +57,15 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.tv_show_menu, menu);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("cycle", "onDestroy: ");
+    }
+
     private void initRecyclerView(){
         binding.tvShowsRecyclerView.setHasFixedSize(true);
-        adapter = new MostPopularTvShowAdapter();
+        adapter = new MostPopularTvShowAdapter(tvShowViewModel.tvShowItemsList);
         binding.tvShowsRecyclerView.setAdapter(adapter);
         binding.tvShowsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -69,7 +77,11 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        getMostPopularTvShows(tvShowViewModel.getCurrentPage());
+
+        if(tvShowViewModel.isAllowRefreshList()) {
+            getMostPopularTvShows(tvShowViewModel.getCurrentPage());
+            tvShowViewModel.setAllowRefreshList(false);
+        }
     }
 
     private void toggleLoading(){
@@ -92,12 +104,15 @@ public class HomeFragment extends Fragment {
 
     private void getMostPopularTvShows(int currentPage){
         toggleLoading();
-        tvShowViewModel.getMostPopularTvShows(currentPage).observe(getViewLifecycleOwner(), tvShow -> {
+        tvShowViewModel.getMostPopularTvShows(currentPage).observe(getViewLifecycleOwner(), popularTvShow -> {
             toggleLoading();
-            if(tvShow != null){
-                tvShowViewModel.setTotalAvailablePages(tvShow.getPages());
-                if(tvShow.getTvShows() != null){
-                    adapter.setData(tvShow.getTvShows());
+            if(popularTvShow != null){
+                tvShowViewModel.setTotalAvailablePages(popularTvShow.getPages());
+                Log.i("home", "getMostPopularTvShows: " +popularTvShow.getPages());
+                if(popularTvShow.getTvShows() != null){
+                    int oldCount = tvShowViewModel.tvShowItemsList.size();
+                    tvShowViewModel.tvShowItemsList.addAll(popularTvShow.getTvShows());
+                    adapter.notifyItemRangeInserted(oldCount, tvShowViewModel.tvShowItemsList.size());
                 }
             }
         });

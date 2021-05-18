@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.smartelectronics.tvshow.data.network.ApiClient;
 import com.smartelectronics.tvshow.data.network.ApiService;
-import com.smartelectronics.tvshow.models.MostPopularTvShow;
-import com.smartelectronics.tvshow.models.TvShowDetailsResponse;
+import com.smartelectronics.tvshow.responses.TvShowDetailsResponse;
+import com.smartelectronics.tvshow.responses.TvShowResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,23 +21,23 @@ public class RemoteDataSource {
         apiService = ApiClient.getRetrofit().create(ApiService.class);
     }
 
-    public LiveData<MostPopularTvShow> getMostPopularTvShows(int page){
-        MutableLiveData<MostPopularTvShow> data = new MutableLiveData<>();
-        apiService.getMostPopularTvShows(page).enqueue(new Callback<MostPopularTvShow>() {
+    public LiveData<TvShowResponse> getMostPopularTvShows(int page){
+        MutableLiveData<TvShowResponse> data = new MutableLiveData<>();
+        apiService.getMostPopularTvShows(page).enqueue(new Callback<TvShowResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MostPopularTvShow> call, @NonNull Response<MostPopularTvShow> response) {
+            public void onResponse(@NonNull Call<TvShowResponse> call, @NonNull Response<TvShowResponse> response) {
                 data.setValue(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<MostPopularTvShow> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<TvShowResponse> call, @NonNull Throwable t) {
                 data.setValue(null);
             }
         });
         return data;
     }
 
-    public LiveData<TvShowDetailsResponse> getTvShowDetails(String showId){
+    public LiveData<TvShowDetailsResponse> getTvShowDetails(int showId){
         MutableLiveData<TvShowDetailsResponse> data = new MutableLiveData<>();
         apiService.getTvShowDetails(showId).enqueue(new Callback<TvShowDetailsResponse>() {
             @Override
