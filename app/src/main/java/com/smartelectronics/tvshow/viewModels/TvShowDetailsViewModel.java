@@ -10,6 +10,7 @@ import com.smartelectronics.tvshow.responses.TvShowDetailsResponse;
 public class TvShowDetailsViewModel extends ViewModel {
 
     private Repository repository;
+    private boolean allowRefreshList = true;
 
     public LiveData<TvShowDetailsResponse> tvShowDetailsResponse = new MutableLiveData<>();
 
@@ -20,5 +21,13 @@ public class TvShowDetailsViewModel extends ViewModel {
 
     public void getTvShowDetails(int showId){
         tvShowDetailsResponse = repository.remote.getTvShowDetails(showId);
+    }
+
+    public boolean isAllowRefreshList() {
+        return allowRefreshList;
+    }
+
+    public void setAllowRefreshList(boolean allowRefreshList) {
+        this.allowRefreshList = allowRefreshList;
     }
 }

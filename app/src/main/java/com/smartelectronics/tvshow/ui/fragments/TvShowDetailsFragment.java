@@ -3,9 +3,12 @@ package com.smartelectronics.tvshow.ui.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +20,8 @@ import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.adapter.ImageSliderAdapter;
 import com.smartelectronics.tvshow.databinding.FragmentTvShowDetailsBinding;
 import com.smartelectronics.tvshow.models.TvShow;
+import com.smartelectronics.tvshow.models.TvShowDetails;
+import com.smartelectronics.tvshow.responses.TvShowDetailsResponse;
 import com.smartelectronics.tvshow.viewModels.TvShowDetailsViewModel;
 
 public class TvShowDetailsFragment extends Fragment {
@@ -36,30 +41,36 @@ public class TvShowDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_show_details, container, false);
+        binding.setTvShowDetails(detailsViewModel);
         binding.setLifecycleOwner(this);
 
         TvShow result = TvShowDetailsFragmentArgs.fromBundle(getArguments()).getTvshow();
         Log.i("detail", "onCreateView: " + result.getId());
 
+        init();
+
         /// Request data from server by tvShow id
         detailsViewModel.getTvShowDetails(result.getId());
-        toggleLoading();
         detailsViewModel.tvShowDetailsResponse.observe(requireActivity(), tvShowDetailsResponse -> {
             toggleLoading();
             if(tvShowDetailsResponse.getTvShowDetails() != null){
                 if(tvShowDetailsResponse.getTvShowDetails().getPictures() != null){
-                    initImageSlider(tvShowDetailsResponse.getTvShowDetails().getPictures());
+                    if(detailsViewModel.isAllowRefreshList()) {
+                        initImageSlider(tvShowDetailsResponse.getTvShowDetails().getPictures());
+                        detailsViewModel.setAllowRefreshList(false);
+                    }
                 }
             }
         });
+
         return binding.getRoot();
     }
+
 
     private void toggleLoading(){
         if(binding.getIsLoading() != null && binding.getIsLoading()) binding.setIsLoading(false);
         else binding.setIsLoading(true);
     }
-
     private void initImageSlider(String[] pictures){
         binding.sliderViewpager.setOffscreenPageLimit(1);
         binding.sliderViewpager.setAdapter(new ImageSliderAdapter(pictures));
@@ -75,6 +86,15 @@ public class TvShowDetailsFragment extends Fragment {
                 initCurrentSliderIndicator(position);
             }
         });*/
+    }
+    private void initImageView(){
+        binding.backImageView.setOnClickListener(v -> {
+            Navigation.findNavController(binding.mainContainer).navigateUp();
+        });
+    }
+    private void init(){
+        toggleLoading();
+        initImageView();
     }
 
     /*private void initSliderIndicator(int count){

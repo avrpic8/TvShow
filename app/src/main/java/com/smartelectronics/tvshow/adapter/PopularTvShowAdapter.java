@@ -11,15 +11,14 @@ import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.databinding.TvShowRowLayoutBinding;
 import com.smartelectronics.tvshow.models.TvShow;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MostPopularTvShowAdapter extends RecyclerView.Adapter<MostPopularTvShowAdapter.TvShowViewHolder> {
+public class PopularTvShowAdapter extends RecyclerView.Adapter<PopularTvShowAdapter.TvShowViewHolder> {
 
     private List<TvShow> tvShowsItems;
     private LayoutInflater layoutInflater;
 
-    public MostPopularTvShowAdapter(List<TvShow> tvShowsItems) {
+    public PopularTvShowAdapter(List<TvShow> tvShowsItems) {
         this.tvShowsItems = tvShowsItems;
     }
 

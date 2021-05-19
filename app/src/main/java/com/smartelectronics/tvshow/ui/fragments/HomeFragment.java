@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.smartelectronics.tvshow.R;
-import com.smartelectronics.tvshow.adapter.MostPopularTvShowAdapter;
+import com.smartelectronics.tvshow.adapter.PopularTvShowAdapter;
 import com.smartelectronics.tvshow.databinding.FragmentHomeBinding;
 
 import com.smartelectronics.tvshow.viewModels.MostPopularTvShowViewModel;
@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private MostPopularTvShowViewModel tvShowViewModel;
 
-    private MostPopularTvShowAdapter adapter;
+    private PopularTvShowAdapter adapter;
 
 
     @Override
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
 
     private void initRecyclerView(){
         binding.tvShowsRecyclerView.setHasFixedSize(true);
-        adapter = new MostPopularTvShowAdapter(tvShowViewModel.tvShowItemsList);
+        adapter = new PopularTvShowAdapter(tvShowViewModel.tvShowItemsList);
         binding.tvShowsRecyclerView.setAdapter(adapter);
         binding.tvShowsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

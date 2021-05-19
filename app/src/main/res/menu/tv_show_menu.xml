@@ -14,5 +14,5 @@
         android:iconTint="@color/white"
         app:showAsAction="ifRoom"
         android:title="@string/search"
-        android:orderInCategory="100"/>
+        android:orderInCategory="100" />
 </menu>
