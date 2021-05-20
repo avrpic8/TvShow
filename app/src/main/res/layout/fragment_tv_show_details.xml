@@ -22,7 +22,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainContainer"
@@ -86,7 +86,19 @@
                 app:layout_constraintBottom_toBottomOf="@id/sliderViewpager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sliderViewpager"
-                app:riv_corner_radius="@dimen/_5sdp" />
+                app:riv_corner_radius="@dimen/_5sdp"/>
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@id/sliderViewpager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sliderViewpager"
+                app:riv_corner_radius="@dimen/_5sdp"
+                android:background="@drawable/cover_background"/>
 
             <TextView
                 android:id="@+id/txt_name"
@@ -171,10 +183,11 @@
                 android:includeFontPadding="false"
                 android:lineSpacingExtra="@dimen/_2sdp"
                 android:maxLines="4"
-                android:text="@{tvShowDetails.tvShowDetailsResponse.tvShowDetails.description}"
+                android:parsHtml="@{tvShowDetails.tvShowDetailsResponse.tvShowDetails.description}"
                 android:textColor="@color/colorTextIcon"
                 android:textSize="@dimen/_11ssp"
-                app:layout_constraintTop_toBottomOf="@id/tvShowImage"/>
+                app:layout_constraintTop_toBottomOf="@id/tvShowImage"
+                android:visibility="gone"/>
 
 
             <TextView

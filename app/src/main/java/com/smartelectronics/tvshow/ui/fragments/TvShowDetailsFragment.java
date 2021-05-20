@@ -59,39 +59,7 @@ public class TvShowDetailsFragment extends Fragment {
                     initImageSlider(tvShowDetailsResponse.getTvShowDetails().getPictures());
                 }
 
-                binding.txtDescription.setVisibility(View.VISIBLE);
-                binding.txtReadMore.setVisibility(View.VISIBLE);
-                binding.txtReadMore.setOnClickListener(v -> {
-                    if(binding.txtReadMore.getText().toString().equals("Read more")){
-                        binding.txtDescription.setMaxLines(Integer.MAX_VALUE);
-                        binding.txtDescription.setEllipsize(null);
-                        binding.txtReadMore.setText(R.string.read_less);
-
-                    }else {
-                        binding.txtDescription.setMaxLines(4);
-                        binding.txtDescription.setEllipsize(TextUtils.TruncateAt.END);
-                        binding.txtReadMore.setText(R.string.read_more);
-                    }
-                });
-
-                if(tvShowDetailsResponse.getTvShowDetails().getGenres() != null){
-                    binding.txtGenre.setText(tvShowDetailsResponse.getTvShowDetails().getGenres()[0]);
-                }else{
-                    binding.txtGenre.setText("N/A");
-                }
-                binding.divider1.setVisibility(View.VISIBLE);
-                binding.layoutMisc.setVisibility(View.VISIBLE);
-                binding.divider2.setVisibility(View.VISIBLE);
-
-                /// buttons
-                binding.btnWebsite.setOnClickListener(click ->{
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(tvShowDetailsResponse.getTvShowDetails().getUrl()));
-                    startActivity(intent);
-                });
-                binding.btnWebsite.setVisibility(View.VISIBLE);
-                binding.btnEpisodes.setVisibility(View.VISIBLE);
-
+                loadDataToViews(tvShowDetailsResponse);
             }
         });
 
@@ -117,6 +85,41 @@ public class TvShowDetailsFragment extends Fragment {
         binding.backImageView.setOnClickListener(v -> {
             Navigation.findNavController(binding.mainContainer).navigateUp();
         });
+    }
+
+    private void loadDataToViews(TvShowDetailsResponse response){
+        binding.txtReadMore.setVisibility(View.VISIBLE);
+        binding.txtReadMore.setOnClickListener(v -> {
+            if(binding.txtReadMore.getText().toString().equals("Read more")){
+                binding.txtDescription.setMaxLines(Integer.MAX_VALUE);
+                binding.txtDescription.setEllipsize(null);
+                binding.txtReadMore.setText(R.string.read_less);
+
+            }else {
+                binding.txtDescription.setMaxLines(4);
+                binding.txtDescription.setEllipsize(TextUtils.TruncateAt.END);
+                binding.txtReadMore.setText(R.string.read_more);
+            }
+        });
+
+        if(response.getTvShowDetails().getGenres() != null){
+            binding.txtGenre.setText(response.getTvShowDetails().getGenres()[0]);
+        }else{
+            binding.txtGenre.setText("N/A");
+        }
+        binding.divider1.setVisibility(View.VISIBLE);
+        binding.layoutMisc.setVisibility(View.VISIBLE);
+        binding.divider2.setVisibility(View.VISIBLE);
+
+        /// buttons
+        binding.btnWebsite.setOnClickListener(click ->{
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(response.getTvShowDetails().getUrl()));
+            startActivity(intent);
+        });
+        binding.btnWebsite.setVisibility(View.VISIBLE);
+        binding.btnEpisodes.setVisibility(View.VISIBLE);
+
     }
 
     private void init(){

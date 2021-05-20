@@ -1,8 +1,11 @@
 package com.smartelectronics.tvshow.bindingAdapter;
 
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.text.HtmlCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -38,5 +41,17 @@ public class MostPopularTvShowBinding {
             NavDirections action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShow);
             Navigation.findNavController(container).navigate(action);
         });
+    }
+
+    @BindingAdapter("android:parsHtml")
+    public static void parsHtml(TextView textView, String description){
+        if(description !=null) {
+            textView.setText(
+                    String.valueOf(
+                            HtmlCompat.fromHtml(description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                    )
+            );
+            textView.setVisibility(View.VISIBLE);
+        }
     }
 }
