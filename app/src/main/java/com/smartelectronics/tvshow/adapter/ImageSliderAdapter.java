@@ -61,6 +61,4 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
     public int getItemCount() {
         return sliderImages.length;
     }
-
-
 }
