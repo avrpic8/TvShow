@@ -54,4 +54,15 @@ public class MostPopularTvShowBinding {
             textView.setVisibility(View.VISIBLE);
         }
     }
+
+    @BindingAdapter("android:parsGenre")
+    public static void movieGenreParser(TextView textView, String[] genre){
+        if(genre != null){
+            String genreParsed = "";
+            for(int i=0; i< genre.length; i++){
+                genreParsed += genre[i] + " | ";
+            }
+            textView.setText(genreParsed);
+        }
+    }
 }
