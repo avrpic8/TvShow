@@ -5,11 +5,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.databinding.TvShowRowLayoutBinding;
 import com.smartelectronics.tvshow.models.TvShow;
+import com.smartelectronics.tvshow.ui.fragments.HomeFragmentDirections;
 
 import java.util.List;
 
@@ -34,6 +38,14 @@ public class PopularTvShowAdapter extends RecyclerView.Adapter<PopularTvShowAdap
         public void bind(TvShow tvShowsItem){
             this.binding.setTvShowItem(tvShowsItem);
             this.binding.executePendingBindings();
+            binding.container.setOnClickListener(v -> {
+                binding.tvShowImageView.setTransitionName("imgCover");
+
+                FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().
+                    addSharedElement(binding.tvShowImageView, "imgCover").build();
+                NavDirections action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowsItem);
+                Navigation.findNavController(binding.tvShowImageView).navigate(action, extras);
+            });
         }
     }
 
