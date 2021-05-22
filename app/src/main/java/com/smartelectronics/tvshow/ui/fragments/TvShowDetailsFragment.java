@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class TvShowDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_show_details, container, false);
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.explode));
         binding.setLifecycleOwner(this);
         TvShow result = TvShowDetailsFragmentArgs.fromBundle(getArguments()).getTvshow();
         binding.setResult(result);
@@ -102,14 +104,11 @@ public class TvShowDetailsFragment extends Fragment {
             }
         });
 
-        if(response.getTvShowDetails().getGenres() != null){
-            binding.txtGenre.setText(response.getTvShowDetails().getGenres()[0]);
-        }else{
-            binding.txtGenre.setText("N/A");
-        }
+
         binding.divider1.setVisibility(View.VISIBLE);
         binding.layoutMisc.setVisibility(View.VISIBLE);
         binding.divider2.setVisibility(View.VISIBLE);
+        binding.tvShowDetails.setSelected(true);
 
         /// buttons
         binding.btnWebsite.setOnClickListener(click ->{

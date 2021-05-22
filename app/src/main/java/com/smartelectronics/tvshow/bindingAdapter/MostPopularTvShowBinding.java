@@ -1,5 +1,6 @@
 package com.smartelectronics.tvshow.bindingAdapter;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,11 +10,15 @@ import androidx.core.text.HtmlCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 
 import com.smartelectronics.tvshow.models.TvShow;
+import com.smartelectronics.tvshow.models.TvShowDetails;
 import com.smartelectronics.tvshow.ui.fragments.HomeFragmentDirections;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
 
 public class MostPopularTvShowBinding {
 
@@ -37,7 +42,10 @@ public class MostPopularTvShowBinding {
 
     @BindingAdapter("tvShowClick")
     public static void onTvShowClick(ConstraintLayout container, TvShow tvShow){
+
         container.setOnClickListener(v -> {
+            //FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().
+                    //addSharedElement(view, "movieCover").build();
             NavDirections action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShow);
             Navigation.findNavController(container).navigate(action);
         });
@@ -55,14 +63,32 @@ public class MostPopularTvShowBinding {
         }
     }
 
-    @BindingAdapter("android:parsGenre")
-    public static void movieGenreParser(TextView textView, String[] genre){
-        if(genre != null){
+    @BindingAdapter("android:parsDetails")
+    public static void movieDetails(TextView textView, TvShowDetails response){
+        if(response != null){
+            String parsedResponse = "";
+
+            /// Movie Rating
+            String rating = String.format(
+                    Locale.getDefault(),
+                    "%.2f",
+                    Double.parseDouble(response.getRating())
+            );
+
+            /// Movie Genre
+            String[] genre  = response.getGenres();
             String genreParsed = "";
             for(int i=0; i< genre.length; i++){
-                genreParsed += genre[i] + " | ";
+                genreParsed += genre[i];
+                if(i < genre.length -1)  genreParsed += " | ";
             }
-            textView.setText(genreParsed);
+            parsedResponse = rating + " \u2022 " + genreParsed;
+
+            /// Movie Run Time
+            String runTime = response.getRuntime();
+
+            parsedResponse = parsedResponse + " \u2022 " + runTime + " Min";
+            textView.setText(parsedResponse);
         }
     }
 }
