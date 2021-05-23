@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.adapter.PopularTvShowAdapter;
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment {
 
         setHasOptionsMenu(true);
         initRecyclerView();
+        initRefreshLayout();
 
         Log.i("cycle", "onCreateView: ");
         return binding.getRoot();
@@ -102,11 +105,34 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void showError(){
+        binding.imgError.setVisibility(View.VISIBLE);
+        binding.txtError.setVisibility(View.VISIBLE);
+    }
+
+    private void hideError(){
+        binding.imgError.setVisibility(View.GONE);
+        binding.txtError.setVisibility(View.GONE);
+    }
+
+    private void initRefreshLayout(){
+        binding.refreshLayout.setColorScheme(R.color.blue,
+                R.color.green, R.color.orange, R.color.purple);
+
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getMostPopularTvShows(tvShowViewModel.getCurrentPage());
+            }
+        });
+    }
     private void getMostPopularTvShows(int currentPage){
         toggleLoading();
         tvShowViewModel.getMostPopularTvShows(currentPage).observe(getViewLifecycleOwner(), popularTvShow -> {
             toggleLoading();
             if(popularTvShow != null){
+                hideError();
+                binding.refreshLayout.setRefreshing(false);
                 tvShowViewModel.setTotalAvailablePages(popularTvShow.getPages());
                 Log.i("home", "getMostPopularTvShows: " +popularTvShow.getPages());
                 if(popularTvShow.getTvShows() != null){
@@ -115,7 +141,7 @@ public class HomeFragment extends Fragment {
                     adapter.notifyItemRangeInserted(oldCount, tvShowViewModel.tvShowItemsList.size());
                     startPostponedEnterTransition();
                 }
-            }
+            }else showError();
         });
     }
 }

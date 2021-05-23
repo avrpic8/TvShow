@@ -23,14 +23,6 @@ import com.smartelectronics.tvshow.viewModels.TvShowDetailsViewModel;
 public class EpisodesFragment extends BottomSheetDialogFragment {
 
     private FragmentEpisodesBinding binding;
-    private TvShowDetailsViewModel viewModel;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        viewModel = new ViewModelProvider(this).get(TvShowDetailsViewModel.class);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

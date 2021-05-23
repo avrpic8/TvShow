@@ -23,7 +23,8 @@
             android:background="@color/colorPrimaryDark"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="@dimen/_8sdp">
+            android:padding="@dimen/_8sdp"
+            android:elevation="@dimen/_5sdp">
 
             <TextView
                 android:id="@+id/txtTitle"

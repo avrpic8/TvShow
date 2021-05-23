@@ -44,16 +44,17 @@ public class TvShowDetailsFragment extends Fragment {
         binding.setLifecycleOwner(this);
 
         /// Set animation to views
-        postponeEnterTransition();
-        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).
+                inflateTransition(android.R.transition.move));
 
         /// Get arguments
         TvShow result = TvShowDetailsFragmentArgs.fromBundle(getArguments()).getTvshow();
-
         binding.setResult(result);
         binding.setTvShowDetails(detailsViewModel);
-        init();
 
+        init();
+        postponeEnterTransition();
         /// Request data from server by tvShow id
         detailsViewModel.getTvShowDetails(result.getId());
         detailsViewModel.tvShowDetailsResponse.observe(requireActivity(), tvShowDetailsResponse -> {
@@ -63,6 +64,7 @@ public class TvShowDetailsFragment extends Fragment {
                     initImageSlider(tvShowDetailsResponse.getTvShowDetails().getPictures());
                 }
 
+                startPostponedEnterTransition();
                 loadDataToViews(tvShowDetailsResponse);
             }
         });
@@ -127,8 +129,6 @@ public class TvShowDetailsFragment extends Fragment {
                             actionTvShowDetailsFragmentToEpisodesFragment(response.getTvShowDetails());
             Navigation.findNavController(binding.btnEpisodes).navigate(action);
         });
-        startPostponedEnterTransition();
-
     }
 
     private void init(){

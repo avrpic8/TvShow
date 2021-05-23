@@ -13,4 +13,5 @@
     <string name="website">Website</string>
     <string name="episodes">Episodes</string>
     <string name="movie_cover">movieCover</string>
+    <string name="unable_connect_to_server">unable connect to server...</string>
 </resources>
