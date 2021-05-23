@@ -40,9 +40,17 @@ public class PopularTvShowAdapter extends RecyclerView.Adapter<PopularTvShowAdap
             this.binding.executePendingBindings();
             binding.container.setOnClickListener(v -> {
                 binding.tvShowImageView.setTransitionName("imgCover");
+                binding.nameTextView.setTransitionName("titleCover");
+                binding.networkTextView.setTransitionName("networkCover");
+                binding.statusTextView.setTransitionName("statusCover");
+                binding.startedTextView.setTransitionName("startedCover");
 
                 FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().
-                    addSharedElement(binding.tvShowImageView, "imgCover").build();
+                    addSharedElement(binding.tvShowImageView, "imgCover").
+                    addSharedElement(binding.nameTextView, "titleCover").
+                    addSharedElement(binding.networkTextView, "networkCover").
+                    addSharedElement(binding.statusTextView, "statusCover").
+                    addSharedElement(binding.startedTextView, "startedCover").build();
                 NavDirections action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowsItem);
                 Navigation.findNavController(binding.tvShowImageView).navigate(action, extras);
             });

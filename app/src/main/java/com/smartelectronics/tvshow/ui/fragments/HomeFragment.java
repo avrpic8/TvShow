@@ -113,6 +113,7 @@ public class HomeFragment extends Fragment {
                     int oldCount = tvShowViewModel.tvShowItemsList.size();
                     tvShowViewModel.tvShowItemsList.addAll(popularTvShow.getTvShows());
                     adapter.notifyItemRangeInserted(oldCount, tvShowViewModel.tvShowItemsList.size());
+                    startPostponedEnterTransition();
                 }
             }
         });

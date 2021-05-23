@@ -1,10 +1,15 @@
 package com.smartelectronics.tvshow.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TvShowDetails {
+import java.util.List;
+
+public class TvShowDetails implements Parcelable {
 
     @SerializedName("id")
     private int id;
@@ -51,6 +56,39 @@ public class TvShowDetails {
 
     @SerializedName("pictures")
     private String[] pictures;
+
+    @SerializedName("episodes")
+    private List<Episode> episodes;
+
+    protected TvShowDetails(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        permalink = in.readString();
+        url = in.readString();
+        description = in.readString();
+        startDate = in.readString();
+        endDate = in.readString();
+        country = in.readString();
+        status = in.readString();
+        runtime = in.readString();
+        imagePath = in.readString();
+        rating = in.readString();
+        ratingCount = in.readString();
+        genres = in.createStringArray();
+        pictures = in.createStringArray();
+    }
+
+    public static final Creator<TvShowDetails> CREATOR = new Creator<TvShowDetails>() {
+        @Override
+        public TvShowDetails createFromParcel(Parcel in) {
+            return new TvShowDetails(in);
+        }
+
+        @Override
+        public TvShowDetails[] newArray(int size) {
+            return new TvShowDetails[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -111,5 +149,33 @@ public class TvShowDetails {
 
     public String[] getPictures() {
         return pictures;
+    }
+
+    public List<Episode> getEpisodes() {
+        return episodes;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(permalink);
+        dest.writeString(url);
+        dest.writeString(description);
+        dest.writeString(startDate);
+        dest.writeString(endDate);
+        dest.writeString(country);
+        dest.writeString(status);
+        dest.writeString(runtime);
+        dest.writeString(imagePath);
+        dest.writeString(rating);
+        dest.writeString(ratingCount);
+        dest.writeStringArray(genres);
+        dest.writeStringArray(pictures);
     }
 }

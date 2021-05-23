@@ -16,10 +16,27 @@
     </fragment>
     <fragment
         android:id="@+id/tvShowDetailsFragment"
-        android:name="com.smartelectronics.tvshow.ui.fragments.TvShowDetailsFragment"
-        android:label="@string/details" >
+        android:name="com.smartelectronics.tvshow.ui.fragments.details.TvShowDetailsFragment"
+        android:label="@string/details"
+        tools:layout="@layout/fragment_tv_show_details">
         <argument
             android:name="tvshow"
-            app:argType="com.smartelectronics.tvshow.models.TvShow" />
+            app:argType="com.smartelectronics.tvshow.models.TvShow"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_tvShowDetailsFragment_to_episodesFragment"
+            app:destination="@id/episodesFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/episodesFragment"
+        android:name="com.smartelectronics.tvshow.ui.fragments.details.EpisodesFragment"
+        android:label="EpisodesFragment"
+        tools:layout="@layout/fragment_episodes">
+        <action
+            android:id="@+id/action_episodesFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+        <argument
+            android:name="tvDetail"
+            app:argType="com.smartelectronics.tvshow.models.TvShowDetails" />
+    </dialog>
 </navigation>
