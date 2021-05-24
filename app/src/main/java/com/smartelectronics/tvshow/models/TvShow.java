@@ -3,10 +3,17 @@ package com.smartelectronics.tvshow.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
-public class TvShow implements Parcelable {
+import java.io.Serializable;
 
+@Entity(tableName = "tvShows")
+public class TvShow implements Serializable {
+
+	@PrimaryKey
 	@SerializedName("id")
 	private int id;
 
@@ -20,7 +27,7 @@ public class TvShow implements Parcelable {
 	private String startDate;
 
 	@SerializedName("end_date")
-	private Object endDate;
+	private String endDate;
 
 	@SerializedName("country")
 	private String country;
@@ -33,29 +40,6 @@ public class TvShow implements Parcelable {
 
 	@SerializedName("image_thumbnail_path")
 	private String imageThumbnailPath;
-
-	protected TvShow(Parcel in) {
-		id = in.readInt();
-		name = in.readString();
-		permalink = in.readString();
-		startDate = in.readString();
-		country = in.readString();
-		network = in.readString();
-		status = in.readString();
-		imageThumbnailPath = in.readString();
-	}
-
-	public static final Creator<TvShow> CREATOR = new Creator<TvShow>() {
-		@Override
-		public TvShow createFromParcel(Parcel in) {
-			return new TvShow(in);
-		}
-
-		@Override
-		public TvShow[] newArray(int size) {
-			return new TvShow[size];
-		}
-	};
 
 	public int getId() {
 		return id;
@@ -89,11 +73,11 @@ public class TvShow implements Parcelable {
 		this.startDate = startDate;
 	}
 
-	public Object getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Object endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
@@ -127,22 +111,5 @@ public class TvShow implements Parcelable {
 
 	public void setImageThumbnailPath(String imageThumbnailPath) {
 		this.imageThumbnailPath = imageThumbnailPath;
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(id);
-		dest.writeString(name);
-		dest.writeString(permalink);
-		dest.writeString(startDate);
-		dest.writeString(country);
-		dest.writeString(network);
-		dest.writeString(status);
-		dest.writeString(imageThumbnailPath);
 	}
 }

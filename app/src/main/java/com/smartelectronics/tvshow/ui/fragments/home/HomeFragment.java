@@ -1,4 +1,4 @@
-    package com.smartelectronics.tvshow.ui.fragments;
+    package com.smartelectronics.tvshow.ui.fragments.home;
 
 import android.os.Bundle;
 
@@ -126,6 +126,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
     private void getMostPopularTvShows(int currentPage){
         toggleLoading();
         tvShowViewModel.getMostPopularTvShows(currentPage).observe(getViewLifecycleOwner(), popularTvShow -> {

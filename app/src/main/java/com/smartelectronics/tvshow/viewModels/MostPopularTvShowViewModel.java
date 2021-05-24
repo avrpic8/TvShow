@@ -1,9 +1,11 @@
 package com.smartelectronics.tvshow.viewModels;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.smartelectronics.tvshow.data.Repository;
 import com.smartelectronics.tvshow.models.TvShow;
@@ -12,7 +14,7 @@ import com.smartelectronics.tvshow.responses.TvShowResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MostPopularTvShowViewModel extends ViewModel {
+public class MostPopularTvShowViewModel extends AndroidViewModel {
 
     private Repository repository;
     public List<TvShow> tvShowItemsList;
@@ -21,8 +23,9 @@ public class MostPopularTvShowViewModel extends ViewModel {
     private int totalAvailablePages = 1;
     private boolean allowRefreshList = true;
 
-    public MostPopularTvShowViewModel() {
-        repository = new Repository();
+    public MostPopularTvShowViewModel(@NonNull Application application) {
+        super(application);
+        repository = new Repository(application);
         tvShowItemsList = new ArrayList<>();
     }
 

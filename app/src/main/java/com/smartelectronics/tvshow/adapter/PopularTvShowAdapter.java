@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.databinding.TvShowRowLayoutBinding;
 import com.smartelectronics.tvshow.models.TvShow;
-import com.smartelectronics.tvshow.ui.fragments.HomeFragmentDirections;
+import com.smartelectronics.tvshow.ui.fragments.home.HomeFragmentDirections;
 
 import java.util.List;
 

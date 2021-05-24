@@ -14,7 +14,7 @@ import androidx.navigation.fragment.FragmentNavigator;
 
 import com.smartelectronics.tvshow.models.TvShow;
 import com.smartelectronics.tvshow.models.TvShowDetails;
-import com.smartelectronics.tvshow.ui.fragments.HomeFragmentDirections;
+import com.smartelectronics.tvshow.ui.fragments.home.HomeFragmentDirections;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.smartelectronics.tvshow.R;
+import com.smartelectronics.tvshow.adapter.EpisodeAdapter;
 import com.smartelectronics.tvshow.databinding.FragmentEpisodesBinding;
 import com.smartelectronics.tvshow.models.TvShowDetails;
 import com.smartelectronics.tvshow.viewModels.TvShowDetailsViewModel;
@@ -23,6 +24,7 @@ import com.smartelectronics.tvshow.viewModels.TvShowDetailsViewModel;
 public class EpisodesFragment extends BottomSheetDialogFragment {
 
     private FragmentEpisodesBinding binding;
+    private EpisodeAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +38,7 @@ public class EpisodesFragment extends BottomSheetDialogFragment {
         binding.setDetails(details);
 
         initButtons();
+        initRecyclerView(details);
         return binding.getRoot();
     }
 
@@ -44,5 +47,11 @@ public class EpisodesFragment extends BottomSheetDialogFragment {
         binding.imgClose.setOnClickListener(click ->{
             NavHostFragment.findNavController(this).navigateUp();
         });
+    }
+
+    private void initRecyclerView(TvShowDetails details){
+        binding.episodeRecycler.setHasFixedSize(true);
+        adapter = new EpisodeAdapter(details.getEpisodes());
+        binding.episodeRecycler.setAdapter(adapter);
     }
 }
