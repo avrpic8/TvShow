@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -48,6 +50,7 @@ public class HomeFragment extends Fragment {
         binding.setLifecycleOwner(this);
 
         setHasOptionsMenu(true);
+        initImageViews();
         initRecyclerView();
         initRefreshLayout();
 
@@ -64,6 +67,13 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.i("cycle", "onDestroy: ");
+    }
+
+    private void initImageViews(){
+        binding.watchListImageView.setOnClickListener(click ->{
+            NavDirections action = HomeFragmentDirections.actionHomeFragmentToWatchListFragment();
+            Navigation.findNavController(binding.getRoot()).navigate(action);
+        });
     }
 
     private void initRecyclerView(){

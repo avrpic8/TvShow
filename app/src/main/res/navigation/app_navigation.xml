@@ -13,6 +13,9 @@
             android:id="@+id/action_homeFragment_to_tvShowDetailsFragment"
             app:destination="@id/tvShowDetailsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_watchListFragment"
+            app:destination="@id/watchListFragment" />
     </fragment>
     <fragment
         android:id="@+id/tvShowDetailsFragment"
@@ -39,4 +42,13 @@
             android:name="tvDetail"
             app:argType="com.smartelectronics.tvshow.models.TvShowDetails" />
     </dialog>
+    <fragment
+        android:id="@+id/watchListFragment"
+        android:name="com.smartelectronics.tvshow.ui.fragments.watchlist.WatchListFragment"
+        android:label="WatchListFragment"
+        tools:layout="@layout/fragment_watch_list">
+        <action
+            android:id="@+id/action_watchListFragment_to_tvShowDetailsFragment"
+            app:destination="@id/tvShowDetailsFragment" />
+    </fragment>
 </navigation>

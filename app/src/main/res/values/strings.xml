@@ -15,4 +15,5 @@
     <string name="movie_cover">movieCover</string>
     <string name="unable_connect_to_server">unable connect to server...</string>
     <string name="added_to_watchlist">Added to watchlist</string>
+    <string name="watchlist">Watchlist</string>
 </resources>

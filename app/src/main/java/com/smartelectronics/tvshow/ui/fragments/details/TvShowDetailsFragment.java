@@ -33,6 +33,7 @@ public class TvShowDetailsFragment extends Fragment {
     private FragmentTvShowDetailsBinding binding;
     private TvShowDetailsViewModel detailsViewModel;
     private TvShow result;
+    private Boolean isTvShowInFavorite = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,8 +72,11 @@ public class TvShowDetailsFragment extends Fragment {
                 loadDataToViews(tvShowDetailsResponse);
             }
         });
-        detailsViewModel.toast.observe(requireActivity(), toast ->{
-            Toast.makeText(requireContext(), toast, Toast.LENGTH_SHORT).show();
+        detailsViewModel.toast.observe(requireActivity(), toast -> {
+            if (detailsViewModel.getShowToast()) {
+                Toast.makeText(requireContext(), toast, Toast.LENGTH_SHORT).show();
+                detailsViewModel.setShowToast(false);
+            }
         });
         return binding.getRoot();
     }
@@ -137,20 +141,52 @@ public class TvShowDetailsFragment extends Fragment {
 
         binding.imgWatchList.setVisibility(View.VISIBLE);
         binding.imgWatchList.setOnClickListener(click -> {
-            new CompositeDisposable().add(detailsViewModel.addToWatchList(result)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.newThread())
-                    .subscribe(() -> {
-                        binding.imgWatchList.setImageResource(R.drawable.ic_added);
-                        detailsViewModel.toast.postValue("Saved to watchlist");
-                    })
-            );
+            CompositeDisposable disposable = new CompositeDisposable();
+            if (isTvShowInFavorite) {
+                disposable.add(detailsViewModel.removeFromWatchList(result)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(() ->{
+                            isTvShowInFavorite = false;
+                            binding.imgWatchList.setImageResource(R.drawable.ic_eye);
+                            detailsViewModel.toast.postValue("Removed from watchlist");
+                            detailsViewModel.setShowToast(true);
+                            disposable.dispose();
+                        })
+                );
+            } else {
+                disposable.add(detailsViewModel.addToWatchList(result)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(() -> {
+                            binding.imgWatchList.setImageResource(R.drawable.ic_added);
+                            detailsViewModel.toast.postValue("Saved to watchlist");
+                            detailsViewModel.setShowToast(true);
+                            disposable.dispose();
+                        })
+                );
+            }
+
         });
+    }
+
+    private void checkTvShowSavedToFavorite() {
+        CompositeDisposable disposable = new CompositeDisposable();
+        disposable.add(detailsViewModel.getTvShowById(String.valueOf(result.getId()))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(Schedulers.newThread())
+                .subscribe(tvShow -> {
+                    isTvShowInFavorite = true;
+                    binding.imgWatchList.setImageResource(R.drawable.ic_added);
+                    disposable.dispose();
+                })
+        );
     }
 
     private void init() {
         toggleLoading();
         initImageView();
+        checkTvShowSavedToFavorite();
     }
 
 
