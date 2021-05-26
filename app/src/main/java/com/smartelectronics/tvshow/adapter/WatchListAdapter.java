@@ -44,6 +44,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.TvSh
             this.binding.setTvShowItem(tvShowsItem);
             this.binding.executePendingBindings();
             binding.container.setOnClickListener(v -> {
+                binding.dataLoading.setVisibility(View.VISIBLE);
                 NavDirections action = WatchListFragmentDirections.actionWatchListFragmentToTvShowDetailsFragment(tvShowsItem);
                 Navigation.findNavController(binding.tvShowImageView).navigate(action);
             });

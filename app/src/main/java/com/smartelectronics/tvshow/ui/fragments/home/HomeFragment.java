@@ -74,11 +74,16 @@ public class HomeFragment extends Fragment {
             NavDirections action = HomeFragmentDirections.actionHomeFragmentToWatchListFragment();
             Navigation.findNavController(binding.getRoot()).navigate(action);
         });
+
+        binding.searchImageView.setOnClickListener(click ->{
+            NavDirections action = HomeFragmentDirections.actionHomeFragmentToSearchFragment();
+            Navigation.findNavController(binding.getRoot()).navigate(action);
+        });
     }
 
     private void initRecyclerView(){
         binding.tvShowsRecyclerView.setHasFixedSize(true);
-        adapter = new PopularTvShowAdapter(tvShowViewModel.tvShowItemsList);
+        adapter = new PopularTvShowAdapter(tvShowViewModel.tvShowItemsList, "home");
         binding.tvShowsRecyclerView.setAdapter(adapter);
         binding.tvShowsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -118,22 +123,22 @@ public class HomeFragment extends Fragment {
     private void showError(){
         binding.imgError.setVisibility(View.VISIBLE);
         binding.txtError.setVisibility(View.VISIBLE);
+        binding.tvShowsRecyclerView.setVisibility(View.INVISIBLE);
     }
 
     private void hideError(){
         binding.imgError.setVisibility(View.GONE);
         binding.txtError.setVisibility(View.GONE);
+        binding.tvShowsRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void initRefreshLayout(){
         binding.refreshLayout.setColorScheme(R.color.blue,
                 R.color.green, R.color.orange, R.color.purple);
 
-        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getMostPopularTvShows(tvShowViewModel.getCurrentPage());
-            }
+        binding.refreshLayout.setOnRefreshListener(() -> {
+            tvShowViewModel.tvShowItemsList.clear();
+            getMostPopularTvShows(1);
         });
     }
 
@@ -150,9 +155,12 @@ public class HomeFragment extends Fragment {
                     int oldCount = tvShowViewModel.tvShowItemsList.size();
                     tvShowViewModel.tvShowItemsList.addAll(popularTvShow.getTvShows());
                     adapter.notifyItemRangeInserted(oldCount, tvShowViewModel.tvShowItemsList.size());
-                    startPostponedEnterTransition();
+                    adapter.notifyDataSetChanged();
                 }
-            }else showError();
+            }else {
+                binding.refreshLayout.setRefreshing(false);
+                showError();
+            }
         });
     }
 }

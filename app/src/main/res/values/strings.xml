@@ -16,4 +16,5 @@
     <string name="unable_connect_to_server">unable connect to server...</string>
     <string name="added_to_watchlist">Added to watchlist</string>
     <string name="watchlist">Watchlist</string>
+    <string name="search_tv_show">Search Tv Show</string>
 </resources>

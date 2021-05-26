@@ -52,4 +52,21 @@ public class RemoteDataSource {
         });
         return data;
     }
+
+    public LiveData<TvShowResponse> searchTvShow(String query, int page){
+        MutableLiveData<TvShowResponse> data = new MutableLiveData<>();
+        apiService.searchTvShow(query, page).enqueue(new Callback<TvShowResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<TvShowResponse> call, @NonNull Response<TvShowResponse> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TvShowResponse> call, @NonNull Throwable t) {
+                data.setValue(null);
+            }
+        });
+
+        return data;
+    }
 }

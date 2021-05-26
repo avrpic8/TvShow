@@ -1,6 +1,7 @@
 package com.smartelectronics.tvshow.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import com.smartelectronics.tvshow.R;
 import com.smartelectronics.tvshow.databinding.TvShowRowLayoutBinding;
 import com.smartelectronics.tvshow.models.TvShow;
 import com.smartelectronics.tvshow.ui.fragments.home.HomeFragmentDirections;
+import com.smartelectronics.tvshow.ui.fragments.search.SearchFragmentDirections;
 
 import java.util.List;
 
@@ -21,12 +23,14 @@ public class PopularTvShowAdapter extends RecyclerView.Adapter<PopularTvShowAdap
 
     private List<TvShow> tvShowsItems;
     private LayoutInflater layoutInflater;
+    private String location;
 
-    public PopularTvShowAdapter(List<TvShow> tvShowsItems) {
+    public PopularTvShowAdapter(List<TvShow> tvShowsItems, String location) {
         this.tvShowsItems = tvShowsItems;
+        this.location = location;
     }
 
-    public static class TvShowViewHolder extends RecyclerView.ViewHolder {
+    public class TvShowViewHolder extends RecyclerView.ViewHolder {
 
         private TvShowRowLayoutBinding binding;
 
@@ -39,20 +43,26 @@ public class PopularTvShowAdapter extends RecyclerView.Adapter<PopularTvShowAdap
             this.binding.setTvShowItem(tvShowsItem);
             this.binding.executePendingBindings();
             binding.container.setOnClickListener(v -> {
+                binding.dataLoading.setVisibility(View.VISIBLE);
                 binding.tvShowImageView.setTransitionName("imgCover");
                 binding.nameTextView.setTransitionName("titleCover");
                 binding.networkTextView.setTransitionName("networkCover");
                 binding.statusTextView.setTransitionName("statusCover");
                 binding.startedTextView.setTransitionName("startedCover");
 
-                FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().
-                    addSharedElement(binding.tvShowImageView, "imgCover").
-                    addSharedElement(binding.nameTextView, "titleCover").
-                    addSharedElement(binding.networkTextView, "networkCover").
-                    addSharedElement(binding.statusTextView, "statusCover").
-                    addSharedElement(binding.startedTextView, "startedCover").build();
-                NavDirections action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowsItem);
-                Navigation.findNavController(binding.tvShowImageView).navigate(action, extras);
+                if(location.equals("home")) {
+                    FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder().
+                            addSharedElement(binding.tvShowImageView, "imgCover").
+                            addSharedElement(binding.nameTextView, "titleCover").
+                            addSharedElement(binding.networkTextView, "networkCover").
+                            addSharedElement(binding.statusTextView, "statusCover").
+                            addSharedElement(binding.startedTextView, "startedCover").build();
+                    NavDirections action = HomeFragmentDirections.actionHomeFragmentToTvShowDetailsFragment(tvShowsItem);
+                    Navigation.findNavController(binding.tvShowImageView).navigate(action, extras);
+                }else {
+                    NavDirections action = SearchFragmentDirections.actionSearchFragmentToTvShowDetailsFragment(tvShowsItem);
+                    Navigation.findNavController(binding.tvShowImageView).navigate(action);
+                }
             });
         }
     }

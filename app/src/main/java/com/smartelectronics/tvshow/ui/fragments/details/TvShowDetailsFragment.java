@@ -25,10 +25,11 @@ import com.smartelectronics.tvshow.models.TvShow;
 import com.smartelectronics.tvshow.responses.TvShowDetailsResponse;
 import com.smartelectronics.tvshow.viewModels.TvShowDetailsViewModel;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class TvShowDetailsFragment extends Fragment {
+public class TvShowDetailsFragment extends Fragment{
 
     private FragmentTvShowDetailsBinding binding;
     private TvShowDetailsViewModel detailsViewModel;
@@ -144,8 +145,8 @@ public class TvShowDetailsFragment extends Fragment {
             CompositeDisposable disposable = new CompositeDisposable();
             if (isTvShowInFavorite) {
                 disposable.add(detailsViewModel.removeFromWatchList(result)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.newThread())
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(() ->{
                             isTvShowInFavorite = false;
                             binding.imgWatchList.setImageResource(R.drawable.ic_eye);
@@ -156,9 +157,10 @@ public class TvShowDetailsFragment extends Fragment {
                 );
             } else {
                 disposable.add(detailsViewModel.addToWatchList(result)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.newThread())
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(() -> {
+                            isTvShowInFavorite = true;
                             binding.imgWatchList.setImageResource(R.drawable.ic_added);
                             detailsViewModel.toast.postValue("Saved to watchlist");
                             detailsViewModel.setShowToast(true);
@@ -174,7 +176,7 @@ public class TvShowDetailsFragment extends Fragment {
         CompositeDisposable disposable = new CompositeDisposable();
         disposable.add(detailsViewModel.getTvShowById(String.valueOf(result.getId()))
                 .subscribeOn(Schedulers.computation())
-                .observeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tvShow -> {
                     isTvShowInFavorite = true;
                     binding.imgWatchList.setImageResource(R.drawable.ic_added);
@@ -188,6 +190,4 @@ public class TvShowDetailsFragment extends Fragment {
         initImageView();
         checkTvShowSavedToFavorite();
     }
-
-
 }

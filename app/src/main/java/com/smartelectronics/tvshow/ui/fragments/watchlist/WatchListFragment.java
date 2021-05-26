@@ -23,6 +23,7 @@ import com.smartelectronics.tvshow.viewModels.WatchListViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -93,7 +94,7 @@ public class WatchListFragment extends Fragment implements LifecycleObserver, Wa
         CompositeDisposable disposable = new CompositeDisposable();
         disposable.add(viewModel.getWatchList()
                 .subscribeOn(Schedulers.computation())
-                .observeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tvShows -> {
                     binding.setIsLoading(false);
                     if (watchList.size() > 0) {
@@ -113,7 +114,7 @@ public class WatchListFragment extends Fragment implements LifecycleObserver, Wa
         CompositeDisposable disposable = new CompositeDisposable();
         disposable.add(viewModel.removeFromWatchList(tvShow)
                 .subscribeOn(Schedulers.computation())
-                .observeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     this.position = position;
                     watchList.remove(this.position);

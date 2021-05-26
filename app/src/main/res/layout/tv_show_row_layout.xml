@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="tvShowItem"
             type="com.smartelectronics.tvshow.models.TvShow" />
@@ -24,23 +25,33 @@
             android:id="@+id/viewBackground"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_25sdp"
             android:background="@drawable/background_tv_show"
             android:paddingBottom="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_25sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvShowImageView" />
+
+        <ProgressBar
+            android:id="@+id/dataLoading"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="@id/viewBackground"
+            app:layout_constraintTop_toTopOf="@id/viewBackground"
+            android:visibility="gone"/>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/tvShowImageView"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginStart="@dimen/_10sdp"
+            android:imageUrl="@{tvShowItem.imageThumbnailPath}"
             android:scaleType="centerCrop"
+            android:transitionName="@string/movie_cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="@dimen/_4sdp"
-            android:imageUrl="@{tvShowItem.imageThumbnailPath}"
-            android:transitionName="@string/movie_cover" />
+            app:riv_corner_radius="@dimen/_4sdp" />
 
         <TextView
             android:id="@+id/nameTextView"
@@ -51,12 +62,12 @@
             android:layout_marginEnd="@dimen/_8sdp"
             android:fontFamily="@font/ubuntu_medium"
             android:includeFontPadding="false"
+            android:text="@{tvShowItem.name}"
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/_13ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvShowImageView"
-            app:layout_constraintTop_toTopOf="@id/viewBackground"
-            android:text="@{tvShowItem.name}"/>
+            app:layout_constraintTop_toTopOf="@id/viewBackground" />
 
         <TextView
             android:id="@+id/networkTextView"
@@ -65,12 +76,12 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:fontFamily="@font/ubuntu"
             android:includeFontPadding="false"
+            android:text='@{tvShowItem.network + " (" + tvShowItem.country + ")"}'
             android:textColor="@color/colorTextOther"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@id/nameTextView"
             app:layout_constraintStart_toStartOf="@id/nameTextView"
-            app:layout_constraintTop_toBottomOf="@id/nameTextView"
-            android:text='@{tvShowItem.network + " (" + tvShowItem.country + ")"}'/>
+            app:layout_constraintTop_toBottomOf="@id/nameTextView" />
 
 
         <TextView
@@ -80,12 +91,12 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:fontFamily="@font/ubuntu"
             android:includeFontPadding="false"
+            android:text='@{"Started on:" + tvShowItem.startDate}'
             android:textColor="@color/colorTextSecondary"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@id/networkTextView"
             app:layout_constraintStart_toStartOf="@id/nameTextView"
-            app:layout_constraintTop_toBottomOf="@id/networkTextView"
-            android:text='@{"Started on:" + tvShowItem.startDate}'/>
+            app:layout_constraintTop_toBottomOf="@id/networkTextView" />
 
         <TextView
             android:id="@+id/statusTextView"
@@ -94,12 +105,12 @@
             android:layout_marginTop="@dimen/_3sdp"
             android:fontFamily="@font/ubuntu"
             android:includeFontPadding="false"
+            android:text="@{tvShowItem.status}"
             android:textColor="@android:color/holo_green_light"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@id/nameTextView"
             app:layout_constraintStart_toStartOf="@id/nameTextView"
-            app:layout_constraintTop_toBottomOf="@id/startedTextView"
-            android:text="@{tvShowItem.status}"/>
+            app:layout_constraintTop_toBottomOf="@id/startedTextView" />
 
         <ImageView
             android:id="@+id/imgDelete"
@@ -108,10 +119,10 @@
             android:layout_marginEnd="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             android:src="@drawable/ic_delete"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/holo_red_light"
-            android:visibility="gone"/>
+            app:tint="@android:color/holo_red_light" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
