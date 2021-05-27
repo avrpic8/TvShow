@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryLight"
             android:gravity="center_vertical"
             android:padding="@dimen/_8sdp"
             android:orientation="horizontal"

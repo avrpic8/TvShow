@@ -15,7 +15,11 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_watchListFragment"
-            app:destination="@id/watchListFragment" />
+            app:destination="@id/watchListFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />

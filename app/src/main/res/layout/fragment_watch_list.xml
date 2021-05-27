@@ -22,11 +22,12 @@
             android:id="@+id/layoutHeader"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimaryLight"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/_5sdp"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="@dimen/_4sdp">
 
             <ImageView
                 android:id="@+id/imgBack"
